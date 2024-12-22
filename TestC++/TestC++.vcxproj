@@ -104,6 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalOptions>-DPSAPI_VERSION=1 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,14 +129,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BinaryHeap.cpp" />
+    <ClCompile Include="MemoryReader.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="SingleChildHeap.cpp" />
     <ClCompile Include="TestC++.cpp" />
+    <ClCompile Include="TestRunner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinaryHeap.h" />
+    <ClInclude Include="HeapBase.h" />
+    <ClInclude Include="MemoryReader.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="SingleChildHeap.h" />
+    <ClInclude Include="TestRunner.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TestC++.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

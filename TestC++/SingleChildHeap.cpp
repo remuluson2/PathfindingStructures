@@ -22,11 +22,15 @@ void PathfindingTester::SingleChildHeap::Grow()
 
 void PathfindingTester::SingleChildHeap::SortUp()
 {
-    int index = _size - 1;
-    while (index != 0 && _heap[index - 1].cost < _heap[index].cost)
+    for (int index = 1; index < _size; index++)
     {
-        Swap(index - 1, index);
-        index--;
+        if (_heap[index - 1].cost < _heap[index].cost)
+        {
+            break;
+        }
+
+        if (_heap[index - 1].cost != _heap[index].cost)
+            Swap(index - 1, index);
     }
 }
 
@@ -45,6 +49,10 @@ void PathfindingTester::SingleChildHeap::Shrink()
 
 void PathfindingTester::SingleChildHeap::Clear()
 {
+    for (int i = 0; i < _size; i++)
+    {
+        delete& _heap[i];
+    }
     delete(_heap);
     _size = 0;
 }

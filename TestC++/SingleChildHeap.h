@@ -1,8 +1,8 @@
 #pragma once
 #include "Node.h"
-#include <vector>
+#include "HeapBase.h"
 namespace PathfindingTester {
-    class SingleChildHeap
+    class SingleChildHeap : public HeapBase
     {
     private:
         Node *_heap;

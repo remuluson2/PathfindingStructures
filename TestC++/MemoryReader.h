@@ -3,15 +3,19 @@
 #include "Windows.h"
 #include "psapi.h"
 #include <iostream>
+#include <fstream>
+#include <strsafe.h>
 namespace PathfindingTester {
 	class MemoryReader
 	{
 	private:
-		DWORDLONG lastState;
-		DWORDLONG lastStatePhys;
+		double lastState;
+		double lastStatePhys;
 		PROCESS_MEMORY_COUNTERS_EX pmc;
 		static MemoryReader* instancePointer;
 		MemoryReader();
+		~MemoryReader();
+		void ErrorExit(LPCTSTR lpszFunction);
 	public:
 		MemoryReader(const MemoryReader& obj) = delete;
 		static MemoryReader* GetInstance();

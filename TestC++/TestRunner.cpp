@@ -13,27 +13,17 @@ void PathfindingTester::TestRunner::RunTest()
 	MemoryReader::GetInstance()->GetMemoryStatus();
 
 	std::cout << "\nRunning Case!\n";
-	//RunCase(2, 2, 10000);
-	Sleep(1000);
-	MemoryReader::GetInstance()->GetMemoryStatus();
+	RunCase(2, 2, 10);
 	//SaveResult(std::to_string(MemoryReader::GetInstance()->GetMemoryChange()));
 	//SaveResult(std::to_string(MemoryReader::GetInstance()->GetMemoryChangePhys()));
 
 	std::cout << "\nRunning Case!\n";
-	//RunCase(1, 2, 10000);
-	Sleep(1000);
-	MemoryReader::GetInstance()->GetMemoryStatus();
+	RunCase(1, 2, 10);
 	//SaveResult(std::to_string(MemoryReader::GetInstance()->GetMemoryChange()));
 	//SaveResult(std::to_string(MemoryReader::GetInstance()->GetMemoryChangePhys()));
 
 	std::cout << "\nRunning Case!\n";
-	//RunCase(0, 2, 10000);
-	Sleep(2000);
-	MemoryReader::GetInstance()->GetMemoryStatus();
-	Sleep(5000);
-	MemoryReader::GetInstance()->GetMemoryStatus();
-	Sleep(20000);
-	MemoryReader::GetInstance()->GetMemoryStatus();
+	RunCase(0, 2, 10);
 	//SaveResult(std::to_string(MemoryReader::GetInstance()->GetMemoryChange()));
 	//SaveResult(std::to_string(MemoryReader::GetInstance()->GetMemoryChangePhys()));
 
@@ -78,10 +68,8 @@ void PathfindingTester::TestRunner::RunCase(int caseIndex, int structureIndex, i
 		nodeHeap->Clear();
 		break;
 	}
-	MemoryReader::GetInstance()->GetMemoryStatus();
 	std::cout << "\nReseting the heap holder!\n";
 	nodeHeap.reset();
-	MemoryReader::GetInstance()->GetMemoryStatus();
 	std::cout << "\nCase done!\n";
 }
 

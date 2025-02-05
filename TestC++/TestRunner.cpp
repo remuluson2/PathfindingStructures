@@ -1,35 +1,50 @@
 #pragma once
 #include "TestRunner.h"
 enum TestCases {
-	RANDOM,
-	WORST,
-	BEST
+	RANDOM = 0,
+	WORST = 1,
+	BEST = 2
+};
+enum MemoryStructures {
+	SINGLECHILDHEAP = 1,
+	BINARYHEAP = 2
 };
 void PathfindingTester::TestRunner::RunTest()
 {
-	std::remove("result.txt");
-
 	std::cout << "\n\nStarting test!\n";
 	MemoryReader::GetInstance()->GetMemoryStatus();
+	for (int i = 0; i < 100; i++) {
+		RunCase(BEST, SINGLECHILDHEAP, 5000);
+		RunCase(BEST, BINARYHEAP, 5000);
+	}
 
-	std::cout << "\nRunning Case!\n";
-	RunCase(2, 2, 10);
-	//SaveResult(std::to_string(MemoryReader::GetInstance()->GetMemoryChange()));
-	//SaveResult(std::to_string(MemoryReader::GetInstance()->GetMemoryChangePhys()));
+	for (int i = 0; i < 100; i++) {
+		RunCase(WORST, SINGLECHILDHEAP, 5000);
+		RunCase(WORST, BINARYHEAP, 5000);
+	}
 
-	std::cout << "\nRunning Case!\n";
-	RunCase(1, 2, 10);
-	//SaveResult(std::to_string(MemoryReader::GetInstance()->GetMemoryChange()));
-	//SaveResult(std::to_string(MemoryReader::GetInstance()->GetMemoryChangePhys()));
+	for (int i = 0; i < 100; i++) {
+		RunCase(RANDOM, SINGLECHILDHEAP, 5000);
+		RunCase(RANDOM, BINARYHEAP, 5000);
+	}
+}
 
-	std::cout << "\nRunning Case!\n";
-	RunCase(0, 2, 10);
-	//SaveResult(std::to_string(MemoryReader::GetInstance()->GetMemoryChange()));
-	//SaveResult(std::to_string(MemoryReader::GetInstance()->GetMemoryChangePhys()));
+void PathfindingTester::TestRunner::RunCases(int caseIndex, int structureIndex, int nodeNumber, int timesToRun) {
 
 }
 
-void PathfindingTester::TestRunner::RunCase(int caseIndex, int structureIndex, int nodeNumber)
+void PathfindingTester::TestRunner::RunCase(int caseIndex, int structureIndex, int nodeNumber) {
+	auto start = std::chrono::high_resolution_clock::now();
+	std::cout << "\nRunning Case!\n";
+	SimulateOperation(caseIndex, structureIndex, nodeNumber);
+	auto end = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+	std::cout << "Case took " << duration.count() << "ms to run.";
+	ResultSaver::GetInstance()->executionTime = duration.count();
+	ResultSaver::GetInstance()->SaveResultToFile(structureIndex, caseIndex, nodeNumber);
+}
+
+void PathfindingTester::TestRunner::SimulateOperation(int caseIndex, int structureIndex, int nodeNumber)
 {
 	std::unique_ptr<HeapBase> nodeHeap;
 	switch(structureIndex) {

@@ -7,6 +7,7 @@ MemoryReader::MemoryReader()
 {
 	lastState = 0;
 	lastStatePhys = 0;
+	byteCounter = 0;
 	GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(&pmc));
 }
 
@@ -95,4 +96,19 @@ SIZE_T PathfindingTester::MemoryReader::GetMemoryChange()
 SIZE_T PathfindingTester::MemoryReader::GetMemoryChangePhys()
 {
 	return GetTotalPhysicalMemoryUsedByProgram() - lastStatePhys;
+}
+
+void PathfindingTester::MemoryReader::LogAllocateMemory(int value)
+{
+	byteCounter += value;
+}
+
+void PathfindingTester::MemoryReader::LogFreeMemory(int value)
+{
+	byteCounter -= value;
+}
+
+int PathfindingTester::MemoryReader::GetMemorySinceLast()
+{
+	return byteCounter;
 }

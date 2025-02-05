@@ -1,4 +1,5 @@
 #pragma once
+#pragma once
 #include "Node.h"
 #include "HeapBase.h"
 #include "ResultSaver.h"
@@ -8,8 +9,8 @@
 #include <iterator>
 #include <iostream>
 namespace PathfindingTester {
-    
-    class BinaryHeap : public HeapBase
+
+    class QuadHeap : public HeapBase
     {
     private:
         std::unique_ptr<Node[]> _heap;
@@ -19,14 +20,15 @@ namespace PathfindingTester {
         void SortUp();
         void SortDown();
         void Shrink();
-        int parent(int i) 
-        { 
-            return (i - 1) / 2; 
+        //REDOINDEXES
+        int parent(int i)
+        {
+            return (i - 1) / 2;
         }
 
-        int leftChildIndex(int i) 
-        { 
-            return (2 * i + 1); 
+        int leftChildIndex(int i)
+        {
+            return (2 * i + 1);
         }
 
         Node leftChild(int i)
@@ -34,9 +36,9 @@ namespace PathfindingTester {
             return _heap[leftChildIndex(i)];
         }
 
-        int rightChildIndex(int i) 
-        { 
-            return (2 * i + 2); 
+        int rightChildIndex(int i)
+        {
+            return (2 * i + 2);
         }
 
         Node rightChild(int i)
@@ -44,10 +46,14 @@ namespace PathfindingTester {
             return _heap[rightChildIndex(i)];
         }
     public:
-        BinaryHeap();
+        QuadHeap();
         void ListHeap();
         void Clear();
         void AddNode(Node node);
         Node GetBestNode();
     };
 }
+class QuadHeap
+{
+};
+

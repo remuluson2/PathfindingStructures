@@ -1,13 +1,10 @@
 #include "BinaryHeap.h"
-#include <algorithm>
-#include <iterator>
-#include <iostream>
 using namespace PathfindingTester;
 
 PathfindingTester::BinaryHeap::BinaryHeap()
 {
     _size = 0;
-    _heap = std::make_unique<Node[]>(0);
+    _heap = std::unique_ptr<Node[]>(0);
 }
 
 void PathfindingTester::BinaryHeap::Swap(int firstIndex, int secondIndex)
@@ -15,36 +12,42 @@ void PathfindingTester::BinaryHeap::Swap(int firstIndex, int secondIndex)
     Node temp = _heap[firstIndex];
     _heap[firstIndex] = _heap[secondIndex];
     _heap[secondIndex] = temp;
+    ResultSaver::GetInstance()->numberOfSwaps++;
 }
 
 void PathfindingTester::BinaryHeap::Grow()
 {
     _size++;
-    auto newArray = std::make_unique<Node[]>(_size);
-
+    std::unique_ptr<Node[]> newArray(new Node[_size]);
     for (int i = 0; i < _size - 1; i++) {
         newArray[i + 1] = _heap[i];
     }
+    //std::cout << "freeing" << _size * sizeof(Node) << "bytes\n";
     _heap = std::move(newArray);
 }
 
 void PathfindingTester::BinaryHeap::SortUp()
 {
+    unsigned int operationNum = 0;
     int index = _size - 1;
     Node x = _heap[parent(index)];
     while (index != 0 && (_heap[index].cost < _heap[parent(index)].cost))
     {
+        operationNum++;
         int parentIndex = parent(index);
         Swap(parentIndex, index);
         index = parentIndex;
     }
+    ResultSaver::GetInstance()->numOfOperations += operationNum;
 }
 
 void PathfindingTester::BinaryHeap::SortDown()
 {
+    unsigned int operationNum = 0;
     int index = 0;
     while (leftChildIndex(index) < _size)
     {
+        operationNum++;
         int smallerIndex = leftChildIndex(index);
         if (rightChildIndex(index) < _size && rightChildIndex(index) < leftChildIndex(index))
         {
@@ -55,16 +58,16 @@ void PathfindingTester::BinaryHeap::SortDown()
         {
             break;
         }
-
         Swap(smallerIndex, index);
         index = smallerIndex;
     }
+    ResultSaver::GetInstance()->numOfOperations += operationNum;
 }
 
 void PathfindingTester::BinaryHeap::Shrink()
 {
     _size--;
-    auto newArray = std::make_unique<Node[]>(_size);
+    std::unique_ptr<Node[]> newArray(new Node[_size]);
     if (_size > 0)
     {
         for (int i = 0; i < _size; i++) {
@@ -81,8 +84,9 @@ void PathfindingTester::BinaryHeap::Clear()
     {
         std::cout << "\nDeleting element " + i;
         delete &_heap[i];
-    }
-    */
+    }*/
+    //delete[] &_heap;
+
     _heap.reset();
     _size = 0;
 }

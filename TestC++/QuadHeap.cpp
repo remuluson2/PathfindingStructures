@@ -1,9 +1,13 @@
-#include "SingleChildHeap.h"
-#include <algorithm>
-#include <iostream>
+#include "QuadHeap.h"
 using namespace PathfindingTester;
 
-void SingleChildHeap::Swap(int firstIndex, int secondIndex)
+PathfindingTester::QuadHeap::QuadHeap()
+{
+    _size = 0;
+    _heap = std::unique_ptr<Node[]>(0);
+}
+
+void PathfindingTester::QuadHeap::Swap(int firstIndex, int secondIndex)
 {
     Node temp = _heap[firstIndex];
     _heap[firstIndex] = _heap[secondIndex];
@@ -11,7 +15,7 @@ void SingleChildHeap::Swap(int firstIndex, int secondIndex)
     ResultSaver::GetInstance()->numberOfSwaps++;
 }
 
-void PathfindingTester::SingleChildHeap::Grow()
+void PathfindingTester::QuadHeap::Grow()
 {
     _size++;
     std::unique_ptr<Node[]> newArray(new Node[_size]);
@@ -22,24 +26,33 @@ void PathfindingTester::SingleChildHeap::Grow()
     _heap = std::move(newArray);
 }
 
-void PathfindingTester::SingleChildHeap::SortUp()
+void PathfindingTester::QuadHeap::SortUp()
 {
     unsigned int operationNum = 0;
-    for (int index = 1; index < _size; index++)
+    int index = _size - 1;
+    Node x = _heap[parent(index)];
+    while (index != 0 && (_heap[index].cost < _heap[parent(index)].cost))
     {
         operationNum++;
-        if (_heap[index - 1].cost < _heap[index].cost)
-        {
-            break;
-        }
-
-        if (_heap[index - 1].cost != _heap[index].cost)
-            Swap(index - 1, index);
+        int parentIndex = parent(index);
+        Swap(parentIndex, index);
+        index = parentIndex;
     }
     ResultSaver::GetInstance()->numOfOperations += operationNum;
 }
 
-void PathfindingTester::SingleChildHeap::Shrink()
+void PathfindingTester::QuadHeap::SortDown()
+{
+    unsigned int operationNum = 0;
+    int index = 0;
+    while (leftChildIndex(index) < _size)
+    {
+        //TODO
+    }
+    ResultSaver::GetInstance()->numOfOperations += operationNum;
+}
+
+void PathfindingTester::QuadHeap::Shrink()
 {
     _size--;
     std::unique_ptr<Node[]> newArray(new Node[_size]);
@@ -52,7 +65,7 @@ void PathfindingTester::SingleChildHeap::Shrink()
     _heap = std::move(newArray);
 }
 
-void PathfindingTester::SingleChildHeap::Clear()
+void PathfindingTester::QuadHeap::Clear()
 {
     std::cout << "\nClearing Array";
     /*for (int i = _size - 1; i > 0; i++)
@@ -66,7 +79,7 @@ void PathfindingTester::SingleChildHeap::Clear()
     _size = 0;
 }
 
-void PathfindingTester::SingleChildHeap::AddNode(Node node)
+void PathfindingTester::QuadHeap::AddNode(Node node)
 {
     Node newNode = Node();
     newNode.x = node.x;
@@ -75,10 +88,10 @@ void PathfindingTester::SingleChildHeap::AddNode(Node node)
 
     Grow();
     _heap[0] = newNode;
-    SortUp();
+    SortDown();
 }
 
-Node PathfindingTester::SingleChildHeap::GetBestNode()
+Node PathfindingTester::QuadHeap::GetBestNode()
 {
 
     Node result = _heap[0];
@@ -87,9 +100,10 @@ Node PathfindingTester::SingleChildHeap::GetBestNode()
     return result;
 }
 
-void PathfindingTester::SingleChildHeap::ListHeap() {
+void PathfindingTester::QuadHeap::ListHeap() {
     for (int i = 0; i < _size; i++) {
-        std::cout << "Node " << i << ": " << _heap[i].cost << "\n";
+        Node node = _heap[i];
+        std::cout << "Node " << i << ": " << node.cost << " Parent: " << parent(i) << "\n";
     }
     if (_size == 0) std::cout << "Heap is empty.";
     std::cout << "\n";

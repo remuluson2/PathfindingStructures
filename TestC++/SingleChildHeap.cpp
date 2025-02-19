@@ -18,13 +18,13 @@ void PathfindingTester::SingleChildHeap::Grow()
     for (int i = 0; i < _size - 1; i++) {
         newArray[i + 1] = _heap[i];
     }
-    //std::cout << "freeing" << _size * sizeof(Node) << "bytes\n";
     _heap = std::move(newArray);
 }
 
 void PathfindingTester::SingleChildHeap::SortUp()
 {
     unsigned int operationNum = 0;
+    operationNum++;
     for (int index = 1; index < _size; index++)
     {
         operationNum++;
@@ -54,14 +54,6 @@ void PathfindingTester::SingleChildHeap::Shrink()
 
 void PathfindingTester::SingleChildHeap::Clear()
 {
-    std::cout << "\nClearing Array";
-    /*for (int i = _size - 1; i > 0; i++)
-    {
-        std::cout << "\nDeleting element " + i;
-        delete &_heap[i];
-    }*/
-    //delete[] &_heap;
-
     _heap.reset();
     _size = 0;
 }

@@ -31,6 +31,7 @@ void PathfindingTester::BinaryHeap::SortUp()
     unsigned int operationNum = 0;
     int index = _size - 1;
     Node x = _heap[parent(index)];
+    operationNum++;
     while (index != 0 && (_heap[index].cost < _heap[parent(index)].cost))
     {
         operationNum++;
@@ -45,6 +46,7 @@ void PathfindingTester::BinaryHeap::SortDown()
 {
     unsigned int operationNum = 0;
     int index = 0;
+    operationNum++;
     while (leftChildIndex(index) < _size)
     {
         operationNum++;
@@ -79,14 +81,6 @@ void PathfindingTester::BinaryHeap::Shrink()
 
 void PathfindingTester::BinaryHeap::Clear()
 {
-    std::cout << "\nClearing Array";
-    /*for (int i = _size - 1; i > 0; i++)
-    {
-        std::cout << "\nDeleting element " + i;
-        delete &_heap[i];
-    }*/
-    //delete[] &_heap;
-
     _heap.reset();
     _size = 0;
 }

@@ -24,7 +24,7 @@ ResultSaver* PathfindingTester::ResultSaver::GetInstance()
 	return instancePointer;
 }
 
-void PathfindingTester::ResultSaver::SaveResultToFile(int structIndex, int caseIndex, int nodeNumber)
+void PathfindingTester::ResultSaver::SaveResultToFile(int structIndex, int caseIndex, int nodeNumber, int index, int nodenum)
 {
 	std::string structName;
 	std::string caseName;
@@ -47,10 +47,10 @@ void PathfindingTester::ResultSaver::SaveResultToFile(int structIndex, int caseI
 		caseName = "BEST";
 		break;
 	}
-	std::ofstream resultFile("result" + structName + caseName + std::to_string(nodeNumber) + ".csv", std::ios_base::app);
+	std::ofstream resultFile("results/result" + structName + caseName + std::to_string(nodeNumber) + ".csv", std::ios_base::app);
 
 	// Write to the file
-	resultFile << executionTime << "," << numOfOperations << "," << numberOfSwaps << "," << memoryUsed << "\n";
+	resultFile << index << "," << executionTime << "," << numOfOperations << "," << numberOfSwaps << "\n";
 
 	// Close the file
 	resultFile.close();

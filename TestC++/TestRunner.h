@@ -10,6 +10,7 @@
 #include <fstream>
 #include <iostream>
 #include <chrono>
+#include <cstdio>
 namespace PathfindingTester {
 	class TestRunner
 	{
@@ -17,9 +18,11 @@ namespace PathfindingTester {
 		static void RunTest();
 		static Node GeneratePoint(int index);
 		static void SimulateOperation(int caseIndex, int structureIndex, int nodeNumber);
-		static void RunCase(int caseIndex, int structureIndex, int nodeNumber);
+		static void RunCase(int caseIndex, int structureIndex, int nodeNumber, int index);
 		static void RunCases(int caseIndex, int structureIndex, int nodeNumber, int timesToRun);
 		static void SaveResult(std::string text);
+		static std::string CaseIndexToName(int caseIndex);
+		static std::string StructureIndexToName(int structureIndex);
 	};
 }
 

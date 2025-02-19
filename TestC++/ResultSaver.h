@@ -15,7 +15,7 @@ namespace PathfindingTester {
 		unsigned int executionTime;
 		unsigned int memoryUsed;
 		unsigned int numberOfSwaps;
-		void SaveResultToFile(int structIndex, int caseIndex, int nodeNumber);
+		void SaveResultToFile(int structIndex, int caseIndex, int nodeNumber, int index, int nodenum);
 		void ClearResult();
 	};
 }

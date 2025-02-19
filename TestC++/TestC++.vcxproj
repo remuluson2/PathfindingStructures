@@ -131,7 +131,6 @@
     <ClCompile Include="BinaryHeap.cpp" />
     <ClCompile Include="MemoryReader.cpp" />
     <ClCompile Include="Node.cpp" />
-    <ClCompile Include="QuadHeap.cpp" />
     <ClCompile Include="ResultSaver.cpp" />
     <ClCompile Include="SingleChildHeap.cpp" />
     <ClCompile Include="TestC++.cpp" />
@@ -142,7 +141,6 @@
     <ClInclude Include="HeapBase.h" />
     <ClInclude Include="MemoryReader.h" />
     <ClInclude Include="Node.h" />
-    <ClInclude Include="QuadHeap.h" />
     <ClInclude Include="ResultSaver.h" />
     <ClInclude Include="SingleChildHeap.h" />
     <ClInclude Include="TestRunner.h" />

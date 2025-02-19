@@ -1,5 +1,4 @@
-﻿#include <iostream>
-#include "TestRunner.h"
+﻿#include "TestRunner.h"
 #include <Psapi.h>
 using namespace std;
 using namespace PathfindingTester;

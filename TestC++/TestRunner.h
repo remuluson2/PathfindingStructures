@@ -8,7 +8,6 @@
 #include <memory>
 #include <string>
 #include <fstream>
-#include <iostream>
 #include <chrono>
 #include <cstdio>
 namespace PathfindingTester {

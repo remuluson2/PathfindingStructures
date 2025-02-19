@@ -11,7 +11,6 @@ enum MemoryStructures {
 };
 void PathfindingTester::TestRunner::RunTest()
 {
-	std::cout << "\n\nStarting test!\n";
 	std:srand(std::time(NULL));
 	int const iterations = 10;
 	int const multiplayer = 1000;
@@ -42,13 +41,10 @@ void PathfindingTester::TestRunner::RunCases(int caseIndex, int structureIndex, 
 }
 
 void PathfindingTester::TestRunner::RunCase(int caseIndex, int structureIndex, int nodeNumber, int index) {
-	std::cout << "\n\nRunning Case!";
-	std::cout << "\nCase " << caseIndex << " : nodeNum " << nodeNumber << "\n";
 	auto start = std::chrono::high_resolution_clock::now();
 	SimulateOperation(caseIndex, structureIndex, nodeNumber);
 	auto end = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-	std::cout << "Case took " << duration.count() << "ns to run.";
 	ResultSaver::GetInstance()->executionTime = duration.count();
 	ResultSaver::GetInstance()->SaveResultToFile(structureIndex, caseIndex, nodeNumber, index, nodeNumber);
 }
@@ -58,40 +54,33 @@ void PathfindingTester::TestRunner::SimulateOperation(int caseIndex, int structu
 	std::unique_ptr<HeapBase> nodeHeap;
 	switch(structureIndex) {
 	case 1:
-		std::cout << "\nSetting SingleChildHeap\n";
 		nodeHeap = std::make_unique<SingleChildHeap>();
 		break;
 	case 2:
-		std::cout << "\nSetting BinaryHeap\n";
 		nodeHeap = std::make_unique<BinaryHeap>();
 		break;
 	}
 	switch (caseIndex) {
 	case RANDOM:
-		std::cout << "\nTesting RANDOM case\n";
 		for (int i = 0; i < nodeNumber; i++) {
 			nodeHeap->AddNode(TestRunner::GeneratePoint(i));
 		}
 		nodeHeap->Clear();
 		break;
 	case WORST:
-		std::cout << "\nTesting WORST case\n";
 		for (int i = 0; i < nodeNumber; i++) {
 			nodeHeap->AddNode(Node(0, 0, i));
 		}
 		nodeHeap->Clear();
 		break;
 	case BEST:
-		std::cout << "\nTesting BEST case\n";
 		for (int i = 0; i < nodeNumber; i++) {
 			nodeHeap->AddNode(Node(0, 0, nodeNumber - i));
 		}
 		nodeHeap->Clear();
 		break;
 	}
-	std::cout << "\nReseting the heap holder!\n";
 	nodeHeap.reset();
-	std::cout << "\nCase done!\n";
 }
 
 void PathfindingTester::TestRunner::SaveResult(std::string text)

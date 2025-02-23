@@ -2,14 +2,9 @@
 #include "SingleChildHeap.h"
 #include "BinaryHeap.h"
 #include "HeapBase.h"
-#include "MemoryReader.h"
-#include <iostream>
-#include <cstdlib>
 #include <memory>
 #include <string>
-#include <fstream>
 #include <chrono>
-#include <cstdio>
 namespace PathfindingTester {
 	class TestRunner
 	{

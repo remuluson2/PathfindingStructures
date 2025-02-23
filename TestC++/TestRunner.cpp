@@ -11,25 +11,31 @@ enum MemoryStructures {
 };
 void PathfindingTester::TestRunner::RunTest()
 {
-	std:srand(std::time(NULL));
+std:srand(std::time(NULL));
+	int const startvalue = 10000;
 	int const iterations = 10;
 	int const multiplayer = 1000;
 	int const targetDatapointNum = 100;
+	//RunCase(BEST, BINARYHEAP, 1000, 1);
 	for (int i = 1; i <= iterations; i++) {
-		RunCases(BEST, SINGLECHILDHEAP, i * multiplayer, targetDatapointNum);
+		RunCases(BEST, SINGLECHILDHEAP, i * multiplayer + startvalue, targetDatapointNum);
 	}
 	for (int i = 1; i <= iterations; i++) {
-		RunCases(BEST, BINARYHEAP, i * multiplayer, targetDatapointNum);
+		RunCases(BEST, BINARYHEAP, i * multiplayer + startvalue, targetDatapointNum);
 	}
 	for (int i = 1; i <= iterations; i++) {
-		RunCases(WORST, BINARYHEAP, i * multiplayer, targetDatapointNum);
+		RunCases(WORST, BINARYHEAP, i * multiplayer + startvalue, targetDatapointNum);
 	}
 	for (int i = 1; i <= iterations; i++) {
-		RunCases(WORST, SINGLECHILDHEAP, i * multiplayer, targetDatapointNum);
+		RunCases(WORST, SINGLECHILDHEAP, i * multiplayer + startvalue, targetDatapointNum);
 	}
 
-	RunCase(RANDOM, BINARYHEAP, 10000, 1);
-	RunCase(RANDOM, SINGLECHILDHEAP, 10000, 1);
+	for (int i = 1; i <= iterations; i++) {
+		RunCases(RANDOM, BINARYHEAP, i * multiplayer + startvalue, targetDatapointNum);
+	}
+	for (int i = 1; i <= iterations; i++) {
+		RunCases(RANDOM, SINGLECHILDHEAP, i * multiplayer + startvalue, targetDatapointNum);
+	}
 }
 
 void PathfindingTester::TestRunner::RunCases(int caseIndex, int structureIndex, int nodeNumber, int timesToRun) {

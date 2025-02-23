@@ -129,7 +129,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BinaryHeap.cpp" />
-    <ClCompile Include="MemoryReader.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="ResultSaver.cpp" />
     <ClCompile Include="SingleChildHeap.cpp" />
@@ -139,7 +138,6 @@
   <ItemGroup>
     <ClInclude Include="BinaryHeap.h" />
     <ClInclude Include="HeapBase.h" />
-    <ClInclude Include="MemoryReader.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="ResultSaver.h" />
     <ClInclude Include="SingleChildHeap.h" />

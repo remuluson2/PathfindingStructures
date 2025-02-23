@@ -46,16 +46,15 @@ void PathfindingTester::BinaryHeap::SortDown()
 {
     unsigned int operationNum = 0;
     int index = 0;
-    operationNum++;
     while (leftChildIndex(index) < _size)
     {
-        operationNum++;
         int smallerIndex = leftChildIndex(index);
         if (rightChildIndex(index) < _size && rightChildIndex(index) < leftChildIndex(index))
         {
             smallerIndex = rightChildIndex(index);
         }
 
+        operationNum++;
         if (_heap[smallerIndex].cost >= _heap[index].cost)
         {
             break;

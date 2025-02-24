@@ -11,18 +11,18 @@ enum MemoryStructures {
 };
 void PathfindingTester::TestRunner::RunTest()
 {
-std:srand(std::time(NULL));
-	int const startvalue = 10000;
+	std:srand(std::time(NULL));
+	int const startvalue = 0;
 	int const iterations = 10;
 	int const multiplayer = 1000;
 	int const targetDatapointNum = 100;
-	//RunCase(BEST, BINARYHEAP, 1000, 1);
 	for (int i = 1; i <= iterations; i++) {
 		RunCases(BEST, SINGLECHILDHEAP, i * multiplayer + startvalue, targetDatapointNum);
 	}
 	for (int i = 1; i <= iterations; i++) {
 		RunCases(BEST, BINARYHEAP, i * multiplayer + startvalue, targetDatapointNum);
 	}
+
 	for (int i = 1; i <= iterations; i++) {
 		RunCases(WORST, BINARYHEAP, i * multiplayer + startvalue, targetDatapointNum);
 	}

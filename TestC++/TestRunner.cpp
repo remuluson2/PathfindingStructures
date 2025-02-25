@@ -16,8 +16,12 @@ void PathfindingTester::TestRunner::RunTest()
 	int const iterations = 10;
 	int const multiplayer = 1000;
 	int const targetDatapointNum = 100;
+	//Test
 	for (int i = 1; i <= iterations; i++) {
 		RunCases(BEST, SINGLECHILDHEAP, i * multiplayer + startvalue, targetDatapointNum);
+	}
+	for (int i = 1; i <= iterations; i++) {
+		RunCases(WORST, SINGLECHILDHEAP, i * multiplayer + startvalue, targetDatapointNum);
 	}
 	for (int i = 1; i <= iterations; i++) {
 		RunCases(BEST, BINARYHEAP, i * multiplayer + startvalue, targetDatapointNum);
@@ -25,9 +29,6 @@ void PathfindingTester::TestRunner::RunTest()
 
 	for (int i = 1; i <= iterations; i++) {
 		RunCases(WORST, BINARYHEAP, i * multiplayer + startvalue, targetDatapointNum);
-	}
-	for (int i = 1; i <= iterations; i++) {
-		RunCases(WORST, SINGLECHILDHEAP, i * multiplayer + startvalue, targetDatapointNum);
 	}
 
 	for (int i = 1; i <= iterations; i++) {
@@ -38,26 +39,28 @@ void PathfindingTester::TestRunner::RunTest()
 	}
 }
 
-void PathfindingTester::TestRunner::RunCases(int caseIndex, int structureIndex, int nodeNumber, int timesToRun) {
-	std::string resultfilename = "results/result" + StructureIndexToName(structureIndex) + CaseIndexToName(caseIndex) + std::to_string(nodeNumber) + ".csv";
+void PathfindingTester::TestRunner::RunCases(int caseIndex, int structureIndex, int numberOfInsertedNodes, int timesToRun) {
+	//Wynik z poprzedniego uruchomienia jest usuwany je¿eli istnieje.
+	std::string resultfilename = "results/result" + StructureIndexToName(structureIndex) + CaseIndexToName(caseIndex) + std::to_string(numberOfInsertedNodes) + ".csv";
 	std::remove(resultfilename.c_str());
 	for (int i = 1; i <= timesToRun; i++) {
-		RunCase(caseIndex, structureIndex, nodeNumber, i);
+		RunCase(caseIndex, structureIndex, numberOfInsertedNodes, i);
 	}
 }
 
-void PathfindingTester::TestRunner::RunCase(int caseIndex, int structureIndex, int nodeNumber, int index) {
+void PathfindingTester::TestRunner::RunCase(int caseIndex, int structureIndex, int numberOfInsertedNodes, int index) {
 	auto start = std::chrono::high_resolution_clock::now();
-	SimulateOperation(caseIndex, structureIndex, nodeNumber);
+	SimulateOperation(caseIndex, structureIndex, numberOfInsertedNodes);
 	auto end = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 	ResultSaver::GetInstance()->executionTime = duration.count();
-	ResultSaver::GetInstance()->SaveResultToFile(structureIndex, caseIndex, nodeNumber, index, nodeNumber);
+	ResultSaver::GetInstance()->SaveResultToFile(structureIndex, caseIndex, numberOfInsertedNodes, index, numberOfInsertedNodes);
 }
 
-void PathfindingTester::TestRunner::SimulateOperation(int caseIndex, int structureIndex, int nodeNumber)
+void PathfindingTester::TestRunner::SimulateOperation(int caseIndex, int structureIndex, int numberOfInsertedNodes)
 {
 	std::unique_ptr<HeapBase> nodeHeap;
+	//W zale¿nosci od parametrow, zostaje utworzona odpowiednia struktura we wskazniku nodeHeap.
 	switch(structureIndex) {
 	case 1:
 		nodeHeap = std::make_unique<SingleChildHeap>();
@@ -66,26 +69,28 @@ void PathfindingTester::TestRunner::SimulateOperation(int caseIndex, int structu
 		nodeHeap = std::make_unique<BinaryHeap>();
 		break;
 	}
+	//Obsluga przypadkow testowych
 	switch (caseIndex) {
 	case RANDOM:
-		for (int i = 0; i < nodeNumber; i++) {
+		for (int i = 0; i < numberOfInsertedNodes; i++) {
 			nodeHeap->AddNode(TestRunner::GeneratePoint(i));
 		}
-		nodeHeap->Clear();
 		break;
 	case WORST:
-		for (int i = 0; i < nodeNumber; i++) {
+		for (int i = 0; i < numberOfInsertedNodes; i++) {
 			nodeHeap->AddNode(Node(0, 0, i));
 		}
-		nodeHeap->Clear();
 		break;
 	case BEST:
-		for (int i = 0; i < nodeNumber; i++) {
-			nodeHeap->AddNode(Node(0, 0, nodeNumber - i));
+		for (int i = 0; i < numberOfInsertedNodes; i++) {
+			nodeHeap->AddNode(Node(0, 0, numberOfInsertedNodes - i));
 		}
-		nodeHeap->Clear();
 		break;
 	}
+	nodeHeap->ListHeap();
+	//Deallokacja wezlow znajdujacych sie na stosie
+	nodeHeap->Clear();
+	//deallokacja stosu po wykonaniu wszystkich operacji
 	nodeHeap.reset();
 }
 

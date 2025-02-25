@@ -24,7 +24,6 @@ void PathfindingTester::SingleChildHeap::Grow()
 void PathfindingTester::SingleChildHeap::SortUp()
 {
     unsigned int operationNum = 0;
-    operationNum++;
     for (int index = 1; index < _size; index++)
     {
         operationNum++;
@@ -32,7 +31,6 @@ void PathfindingTester::SingleChildHeap::SortUp()
         {
             break;
         }
-
         if (_heap[index - 1].cost != _heap[index].cost)
             Swap(index - 1, index);
     }

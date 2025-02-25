@@ -22,7 +22,6 @@ void PathfindingTester::BinaryHeap::Grow()
     for (int i = 0; i < _size - 1; i++) {
         newArray[i + 1] = _heap[i];
     }
-    //std::cout << "freeing" << _size * sizeof(Node) << "bytes\n";
     _heap = std::move(newArray);
 }
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "SingleChildHeap.h"
+#include "MemoryReader.h"
 #include "BinaryHeap.h"
 #include "HeapBase.h"
 #include <memory>
@@ -17,6 +18,7 @@ namespace PathfindingTester {
 		static void SaveResult(std::string text);
 		static std::string CaseIndexToName(int caseIndex);
 		static std::string StructureIndexToName(int structureIndex);
+		static bool CheckIfTestCaseFilesArePresent(std::string fileName);
 	};
 }
 

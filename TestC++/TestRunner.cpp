@@ -11,12 +11,14 @@ enum MemoryStructures {
 };
 void PathfindingTester::TestRunner::RunTest()
 {
-	std:srand(std::time(NULL));
+	srand(time(NULL));
 	int const startvalue = 0;
 	int const iterations = 10;
 	int const multiplayer = 1000;
 	int const targetDatapointNum = 100;
 	//Test
+
+	CheckIfTestCaseFilesArePresent("BESTSINGLECHILDHEAP");
 	for (int i = 1; i <= iterations; i++) {
 		RunCases(BEST, SINGLECHILDHEAP, i * multiplayer + startvalue, targetDatapointNum);
 	}
@@ -54,7 +56,7 @@ void PathfindingTester::TestRunner::RunCase(int caseIndex, int structureIndex, i
 	auto end = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 	ResultSaver::GetInstance()->executionTime = duration.count();
-	ResultSaver::GetInstance()->SaveResultToFile(structureIndex, caseIndex, numberOfInsertedNodes, index, numberOfInsertedNodes);
+	ResultSaver::GetInstance()->SaveResultToFile(structureIndex, caseIndex, numberOfInsertedNodes, index, numberOfInsertedNodes, MemoryReader::GetInstance()->GetMemorySinceLast());
 }
 
 void PathfindingTester::TestRunner::SimulateOperation(int caseIndex, int structureIndex, int numberOfInsertedNodes)
@@ -87,7 +89,7 @@ void PathfindingTester::TestRunner::SimulateOperation(int caseIndex, int structu
 		}
 		break;
 	}
-	nodeHeap->ListHeap();
+	MemoryReader::GetInstance()->GetTotalPhysicalMemoryUsedByProgram();
 	//Deallokacja wezlow znajdujacych sie na stosie
 	nodeHeap->Clear();
 	//deallokacja stosu po wykonaniu wszystkich operacji
@@ -134,6 +136,11 @@ std::string PathfindingTester::TestRunner::StructureIndexToName(int structureInd
 		break;
 	}
 	return structName;
+}
+
+bool PathfindingTester::TestRunner::CheckIfTestCaseFilesArePresent(std::string fileName)
+{
+	return false;
 }
 
 Node PathfindingTester::TestRunner::GeneratePoint(int index)

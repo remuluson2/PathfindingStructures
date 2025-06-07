@@ -30,10 +30,10 @@
     <ClCompile Include="TestRunner.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="MemoryReader.cpp">
+    <ClCompile Include="ResultSaver.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="ResultSaver.cpp">
+    <ClCompile Include="MemoryReader.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,10 +53,10 @@
     <ClInclude Include="HeapBase.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="MemoryReader.h">
+    <ClInclude Include="ResultSaver.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="ResultSaver.h">
+    <ClInclude Include="MemoryReader.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
   </ItemGroup>

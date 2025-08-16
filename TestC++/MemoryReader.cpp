@@ -85,7 +85,7 @@ SIZE_T PathfindingTester::MemoryReader::GetTotalMemoryUsedByProgram()
 SIZE_T PathfindingTester::MemoryReader::GetTotalPhysicalMemoryUsedByProgram()
 {
 	GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc));
-	return pmc.WorkingSetSize;
+	return pmc.PeakWorkingSetSize;
 }
 
 SIZE_T PathfindingTester::MemoryReader::GetMemoryChange()

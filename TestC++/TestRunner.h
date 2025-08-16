@@ -6,6 +6,8 @@
 #include <memory>
 #include <string>
 #include <chrono>
+#include <iostream>
+#include <filesystem>
 namespace PathfindingTester {
 	class TestRunner
 	{

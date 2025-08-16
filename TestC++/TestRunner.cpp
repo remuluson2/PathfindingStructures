@@ -1,5 +1,7 @@
 #pragma once
 #include "TestRunner.h"
+#include <filesystem>
+namespace fs = std::filesystem;
 enum TestCases {
 	RANDOM = 0,
 	WORST = 1,
@@ -18,26 +20,43 @@ void PathfindingTester::TestRunner::RunTest()
 	int const targetDatapointNum = 100;
 	//Test
 
-	CheckIfTestCaseFilesArePresent("BESTSINGLECHILDHEAP");
-	for (int i = 1; i <= iterations; i++) {
-		RunCases(BEST, SINGLECHILDHEAP, i * multiplayer + startvalue, targetDatapointNum);
+	if (!CheckIfTestCaseFilesArePresent("SINGLEHEAPBEST")) {
+		for (int i = 1; i <= iterations; i++) {
+			RunCases(BEST, SINGLECHILDHEAP, i * multiplayer + startvalue, targetDatapointNum);
+		}
+		return;
 	}
-	for (int i = 1; i <= iterations; i++) {
-		RunCases(WORST, SINGLECHILDHEAP, i * multiplayer + startvalue, targetDatapointNum);
+	if (!CheckIfTestCaseFilesArePresent("SINGLEHEAPWORST")) {
+		for (int i = 1; i <= iterations; i++) {
+			RunCases(WORST, SINGLECHILDHEAP, i * multiplayer + startvalue, targetDatapointNum);
+		}
+		return;
 	}
-	for (int i = 1; i <= iterations; i++) {
-		RunCases(BEST, BINARYHEAP, i * multiplayer + startvalue, targetDatapointNum);
+	if (!CheckIfTestCaseFilesArePresent("BINARYHEAPBEST")) {
+		for (int i = 1; i <= iterations; i++) {
+			RunCases(BEST, BINARYHEAP, i * multiplayer + startvalue, targetDatapointNum);
+		}
+		return;
+	}
+	if (!CheckIfTestCaseFilesArePresent("BINARYHEAPWORST")) {
+		for (int i = 1; i <= iterations; i++) {
+			RunCases(WORST, BINARYHEAP, i * multiplayer + startvalue, targetDatapointNum);
+		}
+		return;
 	}
 
-	for (int i = 1; i <= iterations; i++) {
-		RunCases(WORST, BINARYHEAP, i * multiplayer + startvalue, targetDatapointNum);
+	if (!CheckIfTestCaseFilesArePresent("BINARYHEAPRANDOM")) {
+		for (int i = 1; i <= iterations; i++) {
+			RunCases(RANDOM, BINARYHEAP, i * multiplayer + startvalue, targetDatapointNum);
+		}
+		return;
 	}
 
-	for (int i = 1; i <= iterations; i++) {
-		RunCases(RANDOM, BINARYHEAP, i * multiplayer + startvalue, targetDatapointNum);
-	}
-	for (int i = 1; i <= iterations; i++) {
-		RunCases(RANDOM, SINGLECHILDHEAP, i * multiplayer + startvalue, targetDatapointNum);
+	if (!CheckIfTestCaseFilesArePresent("SINGLEHEAPRANDOM")) {
+		for (int i = 1; i <= iterations; i++) {
+			RunCases(RANDOM, SINGLECHILDHEAP, i * multiplayer + startvalue, targetDatapointNum);
+		}
+		return;
 	}
 }
 
@@ -56,7 +75,7 @@ void PathfindingTester::TestRunner::RunCase(int caseIndex, int structureIndex, i
 	auto end = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 	ResultSaver::GetInstance()->executionTime = duration.count();
-	ResultSaver::GetInstance()->SaveResultToFile(structureIndex, caseIndex, numberOfInsertedNodes, index, numberOfInsertedNodes, MemoryReader::GetInstance()->GetMemorySinceLast());
+	ResultSaver::GetInstance()->SaveResultToFile(structureIndex, caseIndex, numberOfInsertedNodes, index, numberOfInsertedNodes, MemoryReader::GetInstance()->GetTotalMemoryUsedByProgram(), MemoryReader::GetInstance()->GetTotalPhysicalMemoryUsedByProgram());
 }
 
 void PathfindingTester::TestRunner::SimulateOperation(int caseIndex, int structureIndex, int numberOfInsertedNodes)
@@ -89,7 +108,6 @@ void PathfindingTester::TestRunner::SimulateOperation(int caseIndex, int structu
 		}
 		break;
 	}
-	MemoryReader::GetInstance()->GetTotalPhysicalMemoryUsedByProgram();
 	//Deallokacja wezlow znajdujacych sie na stosie
 	nodeHeap->Clear();
 	//deallokacja stosu po wykonaniu wszystkich operacji
@@ -140,6 +158,13 @@ std::string PathfindingTester::TestRunner::StructureIndexToName(int structureInd
 
 bool PathfindingTester::TestRunner::CheckIfTestCaseFilesArePresent(std::string fileName)
 {
+	std::string path = "results/";
+	for (const auto& entry : fs::directory_iterator(path))
+	{
+		if (entry.path().string().find(fileName) != std::string::npos) {
+			return true;
+		}
+	}
 	return false;
 }
 

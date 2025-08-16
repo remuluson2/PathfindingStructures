@@ -25,8 +25,5 @@ namespace PathfindingTester {
 		SIZE_T GetTotalPhysicalMemoryUsedByProgram();
 		SIZE_T GetMemoryChange();
 		SIZE_T GetMemoryChangePhys();
-		void LogAllocateMemory(int value);
-		void LogFreeMemory(int value);
-		int GetMemorySinceLast();
 	};
 }

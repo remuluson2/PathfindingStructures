@@ -61,9 +61,9 @@ void TestRunner::RunCases(TestCases caseIndex, int structureIndex, int numberOfI
 }
 
 void TestRunner::RunCase(TestCases caseIndex, int structureIndex, int mapSize, int index) {
-	auto generatedMap = GeneratingMap(caseIndex, mapSize);
+	GeneratingMap generatedMap = GeneratingMap(caseIndex, mapSize);
 	auto start = std::chrono::high_resolution_clock::now();
-	SimulateOperation(caseIndex, structureIndex, &generatedMap);
+	SimulateOperation(caseIndex, structureIndex, generatedMap);
 	auto end = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 	ResultSaver::GetInstance()->executionTime = duration.count();
@@ -71,7 +71,7 @@ void TestRunner::RunCase(TestCases caseIndex, int structureIndex, int mapSize, i
 	generatedMap.ResetVisitFlags();
 }
 
-void TestRunner::SimulateOperation(TestCases caseIndex, int structureIndex, GeneratingMap* map)
+void TestRunner::SimulateOperation(TestCases caseIndex, int structureIndex, GeneratingMap map)
 {
 	std::unique_ptr<HeapBase> nodeHeap;
 	//W zale¿nosci od parametrow, zostaje utworzona odpowiednia struktura we wskazniku nodeHeap.
@@ -83,19 +83,8 @@ void TestRunner::SimulateOperation(TestCases caseIndex, int structureIndex, Gene
 		nodeHeap = std::make_unique<BinaryHeap>();
 		break;
 	}
-	//Obsluga przypadkow testowych
-	switch (caseIndex) {
-	case RANDOM:
-		break;
-	case WORST:
-		break;
-	case BEST:
-		break;
-	}
-	//Deallokacja wezlow znajdujacych sie na stosie
-	nodeHeap->Clear();
-	//deallokacja stosu po wykonaniu wszystkich operacji
-	nodeHeap.reset();
+	MapSolver solver = MapSolver(std::move(nodeHeap), map);
+	solver.FindPath();
 }
 
 void TestRunner::SaveResult(std::string text)

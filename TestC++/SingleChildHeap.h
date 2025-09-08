@@ -17,4 +17,5 @@ public:
     void Clear();
     void AddNode(Node node);
     Node GetBestNode();
+    bool IsNullOrEmpty();
 };

@@ -5,6 +5,8 @@ GeneratingMap::GeneratingMap()
 	selectedCase = TestCases::BEST;
 	size = 10;
 	FillMap();
+	startNode = map[size / 2][0];
+	endNode = map[size / 2][size - 1];
 }
 
 GeneratingMap::GeneratingMap(TestCases desiredCase, int newSize)

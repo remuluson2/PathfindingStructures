@@ -1,14 +1,16 @@
 #pragma once
-#include "TestRunner.h"
 #include "MapNode.h"
+#include "Enums.h"
 class GeneratingMap
 {
 private:
-	TestCases selectedCase;
+	int selectedCase;
 	unsigned int size;
 	MapNode** map;
 	void FillMap();
 public:
+	MapNode endNode;
+	MapNode startNode;
 	GeneratingMap();
 	GeneratingMap(TestCases desiredCase, int newSize);
 	Node GetNode(int x,int y);

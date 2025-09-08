@@ -140,6 +140,7 @@
   <ItemGroup>
     <ClCompile Include="BinaryHeap.cpp" />
     <ClCompile Include="MapNode.cpp" />
+    <ClCompile Include="MapSolver.cpp" />
     <ClCompile Include="MemoryReader.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="ResultSaver.cpp" />
@@ -150,8 +151,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinaryHeap.h" />
+    <ClInclude Include="Enums.h" />
     <ClInclude Include="HeapBase.h" />
     <ClInclude Include="MapNode.h" />
+    <ClInclude Include="MapSolver.h" />
     <ClInclude Include="MemoryReader.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="ResultSaver.h" />

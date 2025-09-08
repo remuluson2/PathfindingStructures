@@ -83,3 +83,7 @@ void SingleChildHeap::ListHeap() {
     if (_size == 0) std::cout << "Heap is empty.";
     std::cout << "\n";
 }
+
+bool SingleChildHeap::IsNullOrEmpty() {
+    return _heap == NULL || _size < 1;
+}

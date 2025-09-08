@@ -1,5 +1,4 @@
 #include "ResultSaver.h"
-using namespace PathfindingTester;
 
 ResultSaver* ResultSaver::instancePointer = nullptr;
 
@@ -11,12 +10,12 @@ ResultSaver::ResultSaver()
 	numberOfSwaps = 0;
 }
 
-PathfindingTester::ResultSaver::~ResultSaver()
+ResultSaver::~ResultSaver()
 {
 	delete instancePointer;
 }
 
-ResultSaver* PathfindingTester::ResultSaver::GetInstance()
+ResultSaver* ResultSaver::GetInstance()
 {
 	if (instancePointer == nullptr) {
 		instancePointer = new ResultSaver();
@@ -24,7 +23,7 @@ ResultSaver* PathfindingTester::ResultSaver::GetInstance()
 	return instancePointer;
 }
 
-void PathfindingTester::ResultSaver::SaveResultToFile(int structIndex, int caseIndex, int nodeNumber, int index, int nodenum, int memoryUsed, int memoryUsed2)
+void ResultSaver::SaveResultToFile(int structIndex, int caseIndex, int nodeNumber, int index, int nodenum, int memoryUsed, int memoryUsed2)
 {
 	std::string structName;
 	std::string caseName;
@@ -57,7 +56,7 @@ void PathfindingTester::ResultSaver::SaveResultToFile(int structIndex, int caseI
 	ClearResult();
 }
 
-void PathfindingTester::ResultSaver::ClearResult()
+void ResultSaver::ClearResult()
 {
 	numOfOperations = 0;
 	executionTime = 0;

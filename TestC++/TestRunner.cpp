@@ -2,16 +2,7 @@
 #include "TestRunner.h"
 #include <filesystem>
 namespace fs = std::filesystem;
-enum TestCases {
-	RANDOM = 0,
-	WORST = 1,
-	BEST = 2
-};
-enum MemoryStructures {
-	SINGLECHILDHEAP = 1,
-	BINARYHEAP = 2
-};
-void PathfindingTester::TestRunner::RunTest()
+void TestRunner::RunTest()
 {
 	srand(time(NULL));
 	int const startvalue = 0;
@@ -60,7 +51,7 @@ void PathfindingTester::TestRunner::RunTest()
 	}
 }
 
-void PathfindingTester::TestRunner::RunCases(int caseIndex, int structureIndex, int numberOfInsertedNodes, int timesToRun) {
+void TestRunner::RunCases(TestCases caseIndex, int structureIndex, int numberOfInsertedNodes, int timesToRun) {
 	//Wynik z poprzedniego uruchomienia jest usuwany je¿eli istnieje.
 	std::string resultfilename = "results/result" + StructureIndexToName(structureIndex) + CaseIndexToName(caseIndex) + std::to_string(numberOfInsertedNodes) + ".csv";
 	std::remove(resultfilename.c_str());
@@ -69,16 +60,18 @@ void PathfindingTester::TestRunner::RunCases(int caseIndex, int structureIndex, 
 	}
 }
 
-void PathfindingTester::TestRunner::RunCase(int caseIndex, int structureIndex, int numberOfInsertedNodes, int index) {
+void TestRunner::RunCase(TestCases caseIndex, int structureIndex, int mapSize, int index) {
+	auto generatedMap = GeneratingMap(caseIndex, mapSize);
 	auto start = std::chrono::high_resolution_clock::now();
-	SimulateOperation(caseIndex, structureIndex, numberOfInsertedNodes);
+	SimulateOperation(caseIndex, structureIndex, &generatedMap);
 	auto end = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 	ResultSaver::GetInstance()->executionTime = duration.count();
-	ResultSaver::GetInstance()->SaveResultToFile(structureIndex, caseIndex, numberOfInsertedNodes, index, numberOfInsertedNodes, MemoryReader::GetInstance()->GetTotalMemoryUsedByProgram(), MemoryReader::GetInstance()->GetTotalPhysicalMemoryUsedByProgram());
+	ResultSaver::GetInstance()->SaveResultToFile(structureIndex, caseIndex, mapSize, index, mapSize, MemoryReader::GetInstance()->GetTotalMemoryUsedByProgram(), MemoryReader::GetInstance()->GetTotalPhysicalMemoryUsedByProgram());
+	generatedMap.ResetVisitFlags();
 }
 
-void PathfindingTester::TestRunner::SimulateOperation(int caseIndex, int structureIndex, int numberOfInsertedNodes)
+void TestRunner::SimulateOperation(TestCases caseIndex, int structureIndex, GeneratingMap* map)
 {
 	std::unique_ptr<HeapBase> nodeHeap;
 	//W zale¿nosci od parametrow, zostaje utworzona odpowiednia struktura we wskazniku nodeHeap.
@@ -93,19 +86,10 @@ void PathfindingTester::TestRunner::SimulateOperation(int caseIndex, int structu
 	//Obsluga przypadkow testowych
 	switch (caseIndex) {
 	case RANDOM:
-		for (int i = 0; i < numberOfInsertedNodes; i++) {
-			nodeHeap->AddNode(TestRunner::GeneratePoint(i));
-		}
 		break;
 	case WORST:
-		for (int i = 0; i < numberOfInsertedNodes; i++) {
-			nodeHeap->AddNode(Node(0, 0, i));
-		}
 		break;
 	case BEST:
-		for (int i = 0; i < numberOfInsertedNodes; i++) {
-			nodeHeap->AddNode(Node(0, 0, numberOfInsertedNodes - i));
-		}
 		break;
 	}
 	//Deallokacja wezlow znajdujacych sie na stosie
@@ -114,7 +98,7 @@ void PathfindingTester::TestRunner::SimulateOperation(int caseIndex, int structu
 	nodeHeap.reset();
 }
 
-void PathfindingTester::TestRunner::SaveResult(std::string text)
+void TestRunner::SaveResult(std::string text)
 {
 	std::ofstream MyFile("result.txt", std::ios_base::app);
 
@@ -125,7 +109,7 @@ void PathfindingTester::TestRunner::SaveResult(std::string text)
 	MyFile.close();
 }
 
-std::string PathfindingTester::TestRunner::CaseIndexToName(int caseIndex)
+std::string TestRunner::CaseIndexToName(int caseIndex)
 {
 	std::string caseName;
 	switch (caseIndex) {
@@ -142,7 +126,7 @@ std::string PathfindingTester::TestRunner::CaseIndexToName(int caseIndex)
 	return caseName;
 }
 
-std::string PathfindingTester::TestRunner::StructureIndexToName(int structureIndex)
+std::string TestRunner::StructureIndexToName(int structureIndex)
 {
 	std::string structName;
 	switch (structureIndex) {
@@ -156,7 +140,7 @@ std::string PathfindingTester::TestRunner::StructureIndexToName(int structureInd
 	return structName;
 }
 
-bool PathfindingTester::TestRunner::CheckIfTestCaseFilesArePresent(std::string fileName)
+bool TestRunner::CheckIfTestCaseFilesArePresent(std::string fileName)
 {
 	std::string path = "results/";
 	for (const auto& entry : fs::directory_iterator(path))
@@ -168,7 +152,7 @@ bool PathfindingTester::TestRunner::CheckIfTestCaseFilesArePresent(std::string f
 	return false;
 }
 
-Node PathfindingTester::TestRunner::GeneratePoint(int index)
+Node TestRunner::GeneratePoint(int index)
 {
 	Node result;
 	result.cost = rand() % 1000;

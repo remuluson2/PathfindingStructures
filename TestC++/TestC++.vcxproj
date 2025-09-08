@@ -24,6 +24,7 @@
     <ProjectGuid>{0dfe05c7-2bf0-4bee-b90d-7c95d046ba2a}</ProjectGuid>
     <RootNamespace>TestC</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>PathfindingStructures</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -138,19 +139,23 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BinaryHeap.cpp" />
+    <ClCompile Include="MapNode.cpp" />
     <ClCompile Include="MemoryReader.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="ResultSaver.cpp" />
+    <ClCompile Include="GeneratingMap.cpp" />
     <ClCompile Include="SingleChildHeap.cpp" />
-    <ClCompile Include="TestC++.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="TestRunner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinaryHeap.h" />
     <ClInclude Include="HeapBase.h" />
+    <ClInclude Include="MapNode.h" />
     <ClInclude Include="MemoryReader.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="ResultSaver.h" />
+    <ClInclude Include="GeneratingMap.h" />
     <ClInclude Include="SingleChildHeap.h" />
     <ClInclude Include="TestRunner.h" />
   </ItemGroup>

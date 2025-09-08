@@ -1,5 +1,4 @@
 #include "MemoryReader.h"
-using namespace PathfindingTester;
 
 MemoryReader* MemoryReader::instancePointer = nullptr;
 
@@ -11,12 +10,12 @@ MemoryReader::MemoryReader()
 	GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(&pmc));
 }
 
-PathfindingTester::MemoryReader::~MemoryReader()
+MemoryReader::~MemoryReader()
 {
 	delete instancePointer;
 }
 
-void PathfindingTester::MemoryReader::ErrorExit(LPCTSTR lpszFunction)
+void MemoryReader::ErrorExit(LPCTSTR lpszFunction)
 {
 	// Retrieve the system error message for the last-error code
 
@@ -76,24 +75,24 @@ void MemoryReader::GetMemoryStatus()
 	lastStatePhys = physMemUsedByMe;
 }
 
-SIZE_T PathfindingTester::MemoryReader::GetTotalMemoryUsedByProgram()
+SIZE_T MemoryReader::GetTotalMemoryUsedByProgram()
 {
 	GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc));
 	return pmc.PrivateUsage;
 }
 
-SIZE_T PathfindingTester::MemoryReader::GetTotalPhysicalMemoryUsedByProgram()
+SIZE_T MemoryReader::GetTotalPhysicalMemoryUsedByProgram()
 {
 	GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc, sizeof(pmc));
 	return pmc.PeakWorkingSetSize;
 }
 
-SIZE_T PathfindingTester::MemoryReader::GetMemoryChange()
+SIZE_T MemoryReader::GetMemoryChange()
 {
 	return GetTotalMemoryUsedByProgram() - lastState;
 }
 
-SIZE_T PathfindingTester::MemoryReader::GetMemoryChangePhys()
+SIZE_T MemoryReader::GetMemoryChangePhys()
 {
 	return GetTotalPhysicalMemoryUsedByProgram() - lastStatePhys;
 }

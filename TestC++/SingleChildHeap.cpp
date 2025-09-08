@@ -1,7 +1,6 @@
 #include "SingleChildHeap.h"
 #include <algorithm>
 #include <iostream>
-using namespace PathfindingTester;
 
 void SingleChildHeap::Swap(int firstIndex, int secondIndex)
 {
@@ -11,7 +10,7 @@ void SingleChildHeap::Swap(int firstIndex, int secondIndex)
     ResultSaver::GetInstance()->numberOfSwaps++;
 }
 
-void PathfindingTester::SingleChildHeap::Grow()
+void SingleChildHeap::Grow()
 {
     _size++;
     std::unique_ptr<Node[]> newArray(new Node[_size]);
@@ -21,7 +20,7 @@ void PathfindingTester::SingleChildHeap::Grow()
     _heap = std::move(newArray);
 }
 
-void PathfindingTester::SingleChildHeap::SortUp()
+void SingleChildHeap::SortUp()
 {
     unsigned int operationNum = 0;
     for (int index = 1; index < _size; index++)
@@ -37,7 +36,7 @@ void PathfindingTester::SingleChildHeap::SortUp()
     ResultSaver::GetInstance()->numOfOperations += operationNum;
 }
 
-void PathfindingTester::SingleChildHeap::Shrink()
+void SingleChildHeap::Shrink()
 {
     _size--;
     std::unique_ptr<Node[]> newArray(new Node[_size]);
@@ -50,13 +49,13 @@ void PathfindingTester::SingleChildHeap::Shrink()
     _heap = std::move(newArray);
 }
 
-void PathfindingTester::SingleChildHeap::Clear()
+void SingleChildHeap::Clear()
 {
     _heap.reset();
     _size = 0;
 }
 
-void PathfindingTester::SingleChildHeap::AddNode(Node node)
+void SingleChildHeap::AddNode(Node node)
 {
     Node newNode = Node();
     newNode.x = node.x;
@@ -68,7 +67,7 @@ void PathfindingTester::SingleChildHeap::AddNode(Node node)
     SortUp();
 }
 
-Node PathfindingTester::SingleChildHeap::GetBestNode()
+Node SingleChildHeap::GetBestNode()
 {
 
     Node result = _heap[0];
@@ -77,7 +76,7 @@ Node PathfindingTester::SingleChildHeap::GetBestNode()
     return result;
 }
 
-void PathfindingTester::SingleChildHeap::ListHeap() {
+void SingleChildHeap::ListHeap() {
     for (int i = 0; i < _size; i++) {
         std::cout << "Node " << i << ": " << _heap[i].cost << "\n";
     }

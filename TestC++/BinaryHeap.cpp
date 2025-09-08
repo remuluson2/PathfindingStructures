@@ -1,13 +1,11 @@
 #include "BinaryHeap.h"
-using namespace PathfindingTester;
-
-PathfindingTester::BinaryHeap::BinaryHeap()
+BinaryHeap::BinaryHeap()
 {
     _size = 0;
     _heap = std::unique_ptr<Node[]>(0);
 }
 
-void PathfindingTester::BinaryHeap::Swap(int firstIndex, int secondIndex)
+void BinaryHeap::Swap(int firstIndex, int secondIndex)
 {
     Node temp = _heap[firstIndex];
     _heap[firstIndex] = _heap[secondIndex];
@@ -15,7 +13,7 @@ void PathfindingTester::BinaryHeap::Swap(int firstIndex, int secondIndex)
     ResultSaver::GetInstance()->numberOfSwaps++;
 }
 
-void PathfindingTester::BinaryHeap::Grow()
+void BinaryHeap::Grow()
 {
     _size++;
     std::unique_ptr<Node[]> newArray(new Node[_size]);
@@ -25,7 +23,7 @@ void PathfindingTester::BinaryHeap::Grow()
     _heap = std::move(newArray);
 }
 
-void PathfindingTester::BinaryHeap::SortUp()
+void BinaryHeap::SortUp()
 {
     unsigned int operationNum = 0;
     int index = _size - 1;
@@ -41,7 +39,7 @@ void PathfindingTester::BinaryHeap::SortUp()
     ResultSaver::GetInstance()->numOfOperations += operationNum;
 }
 
-void PathfindingTester::BinaryHeap::SortDown()
+void BinaryHeap::SortDown()
 {
     unsigned int operationNum = 0;
     int index = 0;
@@ -64,7 +62,7 @@ void PathfindingTester::BinaryHeap::SortDown()
     ResultSaver::GetInstance()->numOfOperations += operationNum;
 }
 
-void PathfindingTester::BinaryHeap::Shrink()
+void BinaryHeap::Shrink()
 {
     _size--;
     std::unique_ptr<Node[]> newArray(new Node[_size]);
@@ -77,13 +75,13 @@ void PathfindingTester::BinaryHeap::Shrink()
     _heap = std::move(newArray);
 }
 
-void PathfindingTester::BinaryHeap::Clear()
+void BinaryHeap::Clear()
 {
     _heap.reset();
     _size = 0;
 }
 
-void PathfindingTester::BinaryHeap::AddNode(Node node)
+void BinaryHeap::AddNode(Node node)
 {
     Node newNode = Node();
     newNode.x = node.x;
@@ -95,7 +93,7 @@ void PathfindingTester::BinaryHeap::AddNode(Node node)
     SortDown();
 }
 
-Node PathfindingTester::BinaryHeap::GetBestNode()
+Node BinaryHeap::GetBestNode()
 {
 
     Node result = _heap[0];
@@ -104,7 +102,7 @@ Node PathfindingTester::BinaryHeap::GetBestNode()
     return result;
 }
 
-void PathfindingTester::BinaryHeap::ListHeap() {
+void BinaryHeap::ListHeap() {
     for (int i = 0; i < _size; i++) {
         Node node = _heap[i];
         std::cout << "Node " << i << ": " << node.cost << " Parent: " << parent(i) << "\n";

@@ -2,7 +2,6 @@
 #include <windows.h>
 #include "TestRunner.h"
 using namespace std;
-using namespace PathfindingTester;
 int main()
 {
 

@@ -58,16 +58,20 @@ bool MapSolver::FindPath() {
 	openNodesCollection->AddNode(startNode);
 	while (!openNodesCollection->IsNullOrEmpty())
 	{
-		openNodesCollection->ListHeap();
 		currentNode = openNodesCollection->GetBestNode();
 		
 		if (GetTaxicabDistance(currentNode, endNode) == 0)
 		{
 			openNodesCollection->Clear();
-			openNodesCollection.reset();
 			return true;
 		}
 		AddChildrenNodes(currentNode, endNode);
 	}
 	return false;
+}
+
+void MapSolver::Reset()
+{
+	openNodesCollection->Clear();
+	map.ResetVisitFlags();
 }

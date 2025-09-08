@@ -12,5 +12,6 @@ class MapSolver
 public:
 	MapSolver(std::unique_ptr<HeapBase> heap, GeneratingMap map);
 	bool FindPath();
+	void Reset();
 };
 

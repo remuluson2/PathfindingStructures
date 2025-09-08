@@ -22,12 +22,12 @@ void GeneratingMap::FillMap() {
 	}
 	if (selectedCase == TestCases::WORST)
 	{
-		for (int i = 1; i < size - 1; i++)
+		for (int i = 1; i < size - 2; i++)
 		{
 			_map[i][size - 2].isPassable = false;
 		}
-		startNode = _map[size - 3][size / 2];
-		endNode = _map[size - 1][size / 2];
+		startNode = _map[size / 2][size - 3];
+		endNode = _map[size / 2][size - 1];
 	}
 	else {
 		startNode = _map[0][size / 2];

@@ -6,8 +6,8 @@ void TestRunner::RunTest()
 {
 	srand(time(NULL));
 	int const startvalue = 0;
-	int const iterations = 2;
-	int const multiplayer = 100;
+	int const iterations = 5;
+	int const multiplayer = 10;
 	int const targetDatapointNum = 10;
 	//Test
 
@@ -17,15 +17,15 @@ void TestRunner::RunTest()
 		}
 		return;
 	}
-	if (!CheckIfTestCaseFilesArePresent("SINGLEHEAPWORST")) {
-		for (int i = 1; i <= iterations; i++) {
-			RunCases(WORST, SINGLECHILDHEAP, i * multiplayer + startvalue, targetDatapointNum);
-		}
-		return;
-	}
 	if (!CheckIfTestCaseFilesArePresent("BINARYHEAPBEST")) {
 		for (int i = 1; i <= iterations; i++) {
 			RunCases(BEST, BINARYHEAP, i * multiplayer + startvalue, targetDatapointNum);
+		}
+		return;
+	}
+	if (!CheckIfTestCaseFilesArePresent("SINGLEHEAPWORST")) {
+		for (int i = 1; i <= iterations; i++) {
+			RunCases(WORST, SINGLECHILDHEAP, i * multiplayer + startvalue, targetDatapointNum);
 		}
 		return;
 	}
@@ -41,9 +41,7 @@ void TestRunner::RunCases(TestCases caseIndex, int structureIndex, int mapSize, 
 	//Wynik z poprzedniego uruchomienia jest usuwany je¿eli istnieje.
 	std::string resultfilename = "results/result" + StructureIndexToName(structureIndex) + CaseIndexToName(caseIndex) + std::to_string(mapSize) + ".csv";
 	std::remove(resultfilename.c_str());
-	for (int i = 1; i <= timesToRun; i++) {
-		RunCase(caseIndex, structureIndex, mapSize, i);
-	}
+	RunCase(caseIndex, structureIndex, mapSize, timesToRun);
 }
 
 void TestRunner::RunCase(TestCases caseIndex, int structureIndex, int mapSize, int timesToRun) {
@@ -57,19 +55,23 @@ void TestRunner::RunCase(TestCases caseIndex, int structureIndex, int mapSize, i
 		nodeHeap = std::make_unique<BinaryHeap>();
 		break;
 	}
+	std::cout << "Starting measurement of structure " << StructureIndexToName(structureIndex) << " with selected case " << CaseIndexToName(caseIndex) << ".\n";
+
 	GeneratingMap generatedMap = GeneratingMap(caseIndex, mapSize);
 
 	MapSolver solver = MapSolver(std::move(nodeHeap), generatedMap);
-	auto start = std::chrono::high_resolution_clock::now();
 	for (int i = 0; i < timesToRun; i++)
 	{
+		auto start = std::chrono::high_resolution_clock::now();
 		solver.FindPath();
+		auto end = std::chrono::high_resolution_clock::now();
+		auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+		std::cout << "Found path " << i+1 << "\n";
+		ResultSaver::GetInstance()->executionTime = duration.count();
+		ResultSaver::GetInstance()->SaveResultToFile(structureIndex, caseIndex, mapSize, i, mapSize, MemoryReader::GetInstance()->GetTotalMemoryUsedByProgram(), MemoryReader::GetInstance()->GetTotalPhysicalMemoryUsedByProgram());
+		generatedMap.ResetVisitFlags();
 	}
-	auto end = std::chrono::high_resolution_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-	ResultSaver::GetInstance()->executionTime = duration.count();
-	ResultSaver::GetInstance()->SaveResultToFile(structureIndex, caseIndex, mapSize, timesToRun, mapSize, MemoryReader::GetInstance()->GetTotalMemoryUsedByProgram(), MemoryReader::GetInstance()->GetTotalPhysicalMemoryUsedByProgram());
-	generatedMap.ResetVisitFlags();
+	
 }
 
 void TestRunner::SaveResult(std::string text)

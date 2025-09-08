@@ -4,9 +4,9 @@
 class GeneratingMap
 {
 private:
-	int selectedCase;
+	TestCases selectedCase;
 	unsigned int size;
-	MapNode** map;
+	MapNode** _map;
 	void FillMap();
 public:
 	MapNode endNode;
@@ -14,6 +14,7 @@ public:
 	GeneratingMap();
 	GeneratingMap(TestCases desiredCase, int newSize);
 	Node GetNode(int x,int y);
+	bool CheckNode(int x, int y);
 	void ResetVisitFlags();
 };
 

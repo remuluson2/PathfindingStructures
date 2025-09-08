@@ -26,11 +26,11 @@ void SingleChildHeap::SortUp()
     for (int index = 1; index < _size; index++)
     {
         operationNum++;
-        if (_heap[index - 1].cost < _heap[index].cost)
+        if (_heap[index - 1].priority < _heap[index].priority)
         {
             break;
         }
-        if (_heap[index - 1].cost != _heap[index].cost)
+        if (_heap[index - 1].priority != _heap[index].priority)
             Swap(index - 1, index);
     }
     ResultSaver::GetInstance()->numOfOperations += operationNum;
@@ -61,6 +61,7 @@ void SingleChildHeap::AddNode(Node node)
     newNode.x = node.x;
     newNode.y = node.y;
     newNode.cost = node.cost;
+    newNode.priority = node.priority;
 
     Grow();
     _heap[0] = newNode;
@@ -78,9 +79,9 @@ Node SingleChildHeap::GetBestNode()
 
 void SingleChildHeap::ListHeap() {
     for (int i = 0; i < _size; i++) {
-        std::cout << "Node " << i << ": " << _heap[i].cost << "\n";
+        std::cout << "Node " << i << ": " << _heap[i].cost << " : " << _heap[i].priority << "\n";
     }
-    if (_size == 0) std::cout << "Heap is empty.";
+    if (_size == 0) std::cout << "Heap is empty.\n";
     std::cout << "\n";
 }
 

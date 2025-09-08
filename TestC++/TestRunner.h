@@ -16,7 +16,6 @@ class TestRunner
 public:
 	static void RunTest();
 	static Node GeneratePoint(int index);
-	static void SimulateOperation(TestCases caseIndex, int structureIndex, GeneratingMap map);
 	static void RunCase(TestCases caseIndex, int structureIndex, int nodeNumber, int index);
 	static void RunCases(TestCases caseIndex, int structureIndex, int nodeNumber, int timesToRun);
 	static void SaveResult(std::string text);

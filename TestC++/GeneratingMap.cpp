@@ -2,11 +2,6 @@
 #include <stdexcept>
 GeneratingMap::GeneratingMap() 
 {
-	selectedCase = TestCases::BEST;
-	size = 10;
-	FillMap();
-	startNode = map[size / 2][0];
-	endNode = map[size / 2][size - 1];
 }
 
 GeneratingMap::GeneratingMap(TestCases desiredCase, int newSize)
@@ -17,34 +12,47 @@ GeneratingMap::GeneratingMap(TestCases desiredCase, int newSize)
 }
 
 void GeneratingMap::FillMap() {
-	map = new MapNode * [size];
+	_map = new MapNode * [size];
 	for (int i = 0; i < size; i++)
 	{
-		map[i] = new MapNode[size];
+		_map[i] = new MapNode[size];
 		for (int j = 0; j < size; j++) {
-			map[i][j] = MapNode(i,j);
+			_map[i][j] = MapNode(j,i);
 		}
 	}
 	if (selectedCase == TestCases::WORST)
 	{
 		for (int i = 1; i < size - 1; i++)
 		{
-			map[i][98].isPassable = false;
+			_map[i][size - 2].isPassable = false;
 		}
+		startNode = _map[size - 3][size / 2];
+		endNode = _map[size - 1][size / 2];
+	}
+	else {
+		startNode = _map[0][size / 2];
+		endNode = _map[size - 1][size / 2];
 	}
 }
 
 void GeneratingMap::ResetVisitFlags() {
 	for (int i = 0; i < size; i++)
 		for (int j = 0; j < size; j++)
-			map[i][j].wasVisited = false;
+			_map[i][j].wasVisited = false;
 }
 
 Node GeneratingMap::GetNode(int x, int y)
 {
-	MapNode node = map[y][x];
-	if (node.isPassable == false || node.wasVisited == true) {
-		throw new std::out_of_range("Node is not a valid target");
-	}
+	MapNode node = _map[y][x];
+	node.wasVisited = true;
 	return Node(node.x, node.y);
+}
+
+bool GeneratingMap::CheckNode(int x, int y)
+{
+	if ((x < 0 || x > size - 1) || (y < 0 || y > size - 1)) {
+		return false;
+	}
+	auto node = _map[y][x];
+	return node.isPassable == true && node.wasVisited == false;
 }

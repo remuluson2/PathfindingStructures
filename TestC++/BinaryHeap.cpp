@@ -29,7 +29,7 @@ void BinaryHeap::SortUp()
     int index = _size - 1;
     Node x = _heap[parent(index)];
     operationNum++;
-    while (index != 0 && (_heap[index].cost < _heap[parent(index)].cost))
+    while (index != 0 && (_heap[index].priority < _heap[parent(index)].priority))
     {
         operationNum++;
         int parentIndex = parent(index);
@@ -86,6 +86,7 @@ void BinaryHeap::AddNode(Node node)
     Node newNode = Node();
     newNode.x = node.x;
     newNode.y = node.y;
+    newNode.cost = node.cost;
     newNode.priority = node.priority;
 
     Grow();
@@ -105,7 +106,7 @@ Node BinaryHeap::GetBestNode()
 void BinaryHeap::ListHeap() {
     for (int i = 0; i < _size; i++) {
         Node node = _heap[i];
-        std::cout << "Node " << i << ": " << node.cost << " : " << node.priority << " Parent: " << parent(i) << "\n";
+        std::cout << "Node " << i << ": " << node.cost << " : " << node.priority << " cords:(" << node.x << ";" << node.y << ") Parent: " << parent(i) << "\n";
     }
     if (_size == 0) std::cout << "Heap is empty.";
     std::cout << "\n";

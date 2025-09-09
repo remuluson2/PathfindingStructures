@@ -15,6 +15,8 @@ public:
 	GeneratingMap(TestCases desiredCase, int newSize);
 	Node GetNode(int x,int y);
 	bool CheckNode(int x, int y);
+	void VisitNode(int x, int y);
 	void ResetVisitFlags();
+	void PrintMap();
 };
 

@@ -18,7 +18,6 @@ public:
 	static Node GeneratePoint(int index);
 	static void RunCase(TestCases caseIndex, int structureIndex, int nodeNumber, int timestoRun);
 	static void RunCases(TestCases caseIndex, int structureIndex, int nodeNumber, int timesToRun);
-	static void SaveResult(std::string text);
 	static std::string CaseIndexToName(int caseIndex);
 	static std::string StructureIndexToName(int structureIndex);
 	static bool CheckIfTestCaseFilesArePresent(std::string fileName);

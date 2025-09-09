@@ -1,14 +1,15 @@
 #pragma once
 #include "TestRunner.h"
 #include <filesystem>
+#include <stdexcept>
 namespace fs = std::filesystem;
 void TestRunner::RunTest()
 {
 	srand(time(NULL));
 	int const startvalue = 0;
-	int const iterations = 5;
-	int const multiplayer = 10;
-	int const targetDatapointNum = 10;
+	int const iterations = 10;
+	int const multiplayer = 100;
+	int const targetDatapointNum = 100;
 	//Test
 
 	if (!CheckIfTestCaseFilesArePresent("SINGLEHEAPBEST")) {
@@ -55,7 +56,7 @@ void TestRunner::RunCase(TestCases caseIndex, int structureIndex, int mapSize, i
 		nodeHeap = std::make_unique<BinaryHeap>();
 		break;
 	}
-	std::cout << "Starting measurement of structure " << StructureIndexToName(structureIndex) << " with selected case " << CaseIndexToName(caseIndex) << ".\n";
+	std::cout << "Starting measurement of structure " << StructureIndexToName(structureIndex) << " with selected case " << CaseIndexToName(caseIndex) << " and map size " << mapSize << ".\n";
 
 	GeneratingMap generatedMap = GeneratingMap(caseIndex, mapSize);
 
@@ -63,26 +64,17 @@ void TestRunner::RunCase(TestCases caseIndex, int structureIndex, int mapSize, i
 	for (int i = 0; i < timesToRun; i++)
 	{
 		auto start = std::chrono::high_resolution_clock::now();
-		solver.FindPath();
+		if (!solver.FindPath())
+		{
+			throw std::logic_error("Path was not found!");
+		}
 		auto end = std::chrono::high_resolution_clock::now();
 		auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
 		std::cout << "Found path " << i+1 << "\n";
 		ResultSaver::GetInstance()->executionTime = duration.count();
-		ResultSaver::GetInstance()->SaveResultToFile(structureIndex, caseIndex, mapSize, i, mapSize, MemoryReader::GetInstance()->GetTotalMemoryUsedByProgram(), MemoryReader::GetInstance()->GetTotalPhysicalMemoryUsedByProgram());
+		ResultSaver::GetInstance()->SaveResultToFile(structureIndex, caseIndex, mapSize, i+1, MemoryReader::GetInstance()->GetTotalMemoryUsedByProgram(), MemoryReader::GetInstance()->GetTotalPhysicalMemoryUsedByProgram());
 		generatedMap.ResetVisitFlags();
 	}
-	
-}
-
-void TestRunner::SaveResult(std::string text)
-{
-	std::ofstream MyFile("result.txt", std::ios_base::app);
-
-	// Write to the file
-	MyFile << text << "\n";
-
-	// Close the file
-	MyFile.close();
 }
 
 std::string TestRunner::CaseIndexToName(int caseIndex)

@@ -54,6 +54,7 @@ bool MapSolver::FindPath() {
 	Node startNode = map.startNode.toNode();
 	Node endNode = map.endNode.toNode();
 	startNode.priority = GetTaxicabDistance(startNode, endNode);
+	map.VisitNode(startNode.x, startNode.y);
 	Node currentNode;
 	openNodesCollection->AddNode(startNode);
 	while (!openNodesCollection->IsNullOrEmpty())

@@ -23,7 +23,7 @@ ResultSaver* ResultSaver::GetInstance()
 	return instancePointer;
 }
 
-void ResultSaver::SaveResultToFile(int structIndex, int caseIndex, int nodeNumber, int index, int nodenum, int memoryUsed, int memoryUsed2)
+void ResultSaver::SaveResultToFile(int structIndex, int caseIndex, int mapSize, int index, int memoryUsed, int memoryUsed2)
 {
 	std::string structName;
 	std::string caseName;
@@ -46,7 +46,7 @@ void ResultSaver::SaveResultToFile(int structIndex, int caseIndex, int nodeNumbe
 		caseName = "BEST";
 		break;
 	}
-	std::ofstream resultFile("results/result" + structName + caseName + std::to_string(nodeNumber) + ".csv", std::ios_base::app);
+	std::ofstream resultFile("results/result" + structName + caseName + std::to_string(mapSize) + ".csv", std::ios_base::app);
 
 	// Write to the file
 	resultFile << index << "," << executionTime << "," << numOfOperations << "," << numberOfSwaps << "," << memoryUsed << "," << memoryUsed2 << "\n";

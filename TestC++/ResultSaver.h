@@ -14,6 +14,6 @@ public:
 	unsigned int executionTime;
 	unsigned int memoryUsed;
 	unsigned int numberOfSwaps;
-	void SaveResultToFile(int structIndex, int caseIndex, int nodeNumber, int index, int nodenum, int memoryused, int memoryused2);
+	void SaveResultToFile(int structIndex, int caseIndex, int mapSize, int index, int memoryused, int memoryused2);
 	void ClearResult();
 };

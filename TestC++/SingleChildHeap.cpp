@@ -26,7 +26,7 @@ void SingleChildHeap::SortUp()
     for (int index = 1; index < _size; index++)
     {
         operationNum++;
-        if (_heap[index - 1].priority < _heap[index].priority)
+        if (_heap[index - 1].priority <= _heap[index].priority)
         {
             break;
         }

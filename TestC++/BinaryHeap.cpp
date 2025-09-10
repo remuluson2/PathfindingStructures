@@ -18,7 +18,7 @@ void BinaryHeap::Grow()
     _size++;
     std::unique_ptr<Node[]> newArray(new Node[_size]);
     for (int i = 0; i < _size - 1; i++) {
-        newArray[i + 1] = _heap[i];
+        newArray[i] = _heap[i];
     }
     _heap = std::move(newArray);
 }
@@ -27,7 +27,6 @@ void BinaryHeap::SortUp()
 {
     unsigned int operationNum = 0;
     int index = _size - 1;
-    Node x = _heap[parent(index)];
     operationNum++;
     while (index != 0 && (_heap[index].priority < _heap[parent(index)].priority))
     {
@@ -90,15 +89,15 @@ void BinaryHeap::AddNode(Node node)
     newNode.priority = node.priority;
 
     Grow();
-    _heap[0] = newNode;
-    SortDown();
+    _heap[_size - 1] = newNode;
+    SortUp();
 }
 
 Node BinaryHeap::GetBestNode()
 {
-
     Node result = _heap[0];
     Shrink();
+    SortDown();
 
     return result;
 }

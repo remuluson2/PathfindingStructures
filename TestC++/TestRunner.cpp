@@ -73,7 +73,7 @@ void TestRunner::RunCase(TestCases caseIndex, int structureIndex, int mapSize, i
 		std::cout << "Found path " << i+1 << "\n";
 		ResultSaver::GetInstance()->executionTime = duration.count();
 		ResultSaver::GetInstance()->SaveResultToFile(structureIndex, caseIndex, mapSize, i+1, MemoryReader::GetInstance()->GetTotalMemoryUsedByProgram(), MemoryReader::GetInstance()->GetTotalPhysicalMemoryUsedByProgram());
-		generatedMap.ResetVisitFlags();
+		solver.Reset();
 	}
 }
 

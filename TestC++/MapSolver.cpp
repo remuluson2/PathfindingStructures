@@ -63,7 +63,6 @@ bool MapSolver::FindPath() {
 		
 		if (GetTaxicabDistance(currentNode, endNode) == 0)
 		{
-			openNodesCollection->Clear();
 			return true;
 		}
 		AddChildrenNodes(currentNode, endNode);
